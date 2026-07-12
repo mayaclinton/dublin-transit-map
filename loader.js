@@ -2,30 +2,24 @@
 
 (async function loadMapData() {
   const files = {
-    hidingZoneData: 'data/HidingZone.geojson',
-    railwayData: 'data/Railway.geojson',
-    dartStationsData: 'data/DartStations.geojson',
-    transferBufferData: 'data/TransferBuffer.geojson',
-    reachableStopsData: 'data/ReachableStops.geojson',
-    busRoutesData: 'data/ClippedBusRoutes.geojson'
+    hidingZoneData: 'HidingZone.geojson',
+    railwayData: 'Railway.geojson',
+    dartStationsData: 'DartStations.geojson',
+    transferBufferData: 'TransferBuffer.geojson',
+    boardingStopsData: 'ExportLinks.geojson',
+    reachableStopsData: 'ReachableStops.geojson',
+    busRoutesData: 'ClippedBusRoutes.geojson'
   };
 
   try {
     await Promise.all(Object.entries(files).map(async ([name, path]) => {
-      const response = await fetch(path);
+      const response = await fetch(path, { cache: 'no-store' });
       if (!response.ok) throw new Error(`Could not load ${path} (${response.status})`);
       window[name] = await response.json();
     }));
 
-    // The frequent boarding-stop export was not uploaded to the repository.
-    // Use an empty layer so the rest of the map still renders.
-    window.boardingStopsData = {
-      type: 'FeatureCollection',
-      features: []
-    };
-
     const script = document.createElement('script');
-    script.src = 'script.js';
+    script.src = `script.js?v=${Date.now()}`;
     script.onerror = () => showError('The map script could not be loaded.');
     document.body.appendChild(script);
   } catch (error) {
