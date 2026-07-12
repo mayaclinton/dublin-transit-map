@@ -3,63 +3,73 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f7f5ef" />
-  <title>DART + Frequent Bus Reachability</title>
+  <meta name="theme-color" content="#ffd83d" />
+  <meta name="description" content="A fan-made IRL Dublin transit challenge map inspired by travel competition games." />
+  <title>Dublin: The Game — IRL Transit Challenge</title>
   <link rel="preconnect" href="https://unpkg.com" />
   <link rel="preconnect" href="https://basemaps.cartocdn.com" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style.css?v=6" />
+  <link rel="stylesheet" href="style.css?v=8" />
 </head>
 <body>
   <header class="app-header">
     <div class="brand">
-      <span class="brand-mark">D</span>
-      <div>
-        <h1>DART + Frequent Bus Reachability</h1>
-        <p>Explore onward journeys from Dublin's DART network.</p>
+      <span class="brand-mark" aria-hidden="true">D</span>
+      <div class="brand-copy">
+        <div class="brand-topline">IRL DUBLIN EDITION</div>
+        <h1>Dublin: The Game</h1>
+        <p>Plan your route. Make the transfer. Outsmart the city.</p>
       </div>
     </div>
     <div class="header-actions">
-      <button id="panelToggle" class="icon-button mobile-only" type="button" aria-controls="infoPanel" aria-expanded="false">Map guide</button>
-      <button id="fitMap" class="secondary-button" type="button">Reset view</button>
+      <span class="unofficial-badge">Unofficial fan project</span>
+      <button id="panelToggle" class="icon-button mobile-only" type="button" aria-controls="infoPanel" aria-expanded="false">Game guide</button>
+      <button id="fitMap" class="secondary-button" type="button">Reset board</button>
     </div>
   </header>
 
   <main>
-    <aside id="infoPanel" class="info-panel" aria-label="Map guide">
+    <aside id="infoPanel" class="info-panel" aria-label="Game map guide">
       <div class="panel-handle mobile-only" aria-hidden="true"></div>
+
       <section class="intro-section">
-        <span class="section-kicker">Journey explorer</span>
-        <h2>See how far frequent bus routes take you</h2>
-        <p>Orange points are final reachable stops. Blue points are the frequent boarding stops near a DART station.</p>
+        <span class="section-kicker">The playing field</span>
+        <h2>How far can you get from the DART?</h2>
+        <p>Start at a DART station, walk to a frequent bus, ride for the allowed time, then continue the challenge on foot.</p>
+      </section>
+
+      <section class="mission-card">
+        <span class="mission-card__label">Mission</span>
+        <strong>Build the strongest route through Dublin</strong>
+        <p>Orange stops are possible endpoints. Blue stops are your boarding points near the DART.</p>
       </section>
 
       <section>
-        <label for="stationFilter">Filter by DART station</label>
+        <label for="stationFilter">Choose your starting DART station</label>
         <select id="stationFilter">
-          <option value="">All DART stations</option>
+          <option value="">All starting stations</option>
         </select>
       </section>
 
       <section class="summary-card">
         <span id="reachableCount">0</span>
-        <small>reachable stop records</small>
+        <small>possible endpoint records</small>
       </section>
 
       <section class="legend">
-        <h2>Map key</h2>
-        <div><span class="legend-dot orange"></span> Reachable final stop</div>
+        <h2>Game board key</h2>
+        <div><span class="legend-dot orange"></span> Reachable endpoint</div>
         <div><span class="legend-dot blue"></span> Frequent boarding stop</div>
-        <div><span class="legend-dot station"></span> DART station</div>
-        <div><span class="legend-line dart"></span> DART railway</div>
+        <div><span class="legend-dot station"></span> DART starting station</div>
+        <div><span class="legend-line dart"></span> DART line</div>
         <div><span class="legend-line route-gradient"></span> Frequent bus route</div>
-        <div><span class="legend-area buffer"></span> 400 m transfer buffer</div>
+        <div><span class="legend-area buffer"></span> 400 m transfer zone</div>
       </section>
 
-      <p class="tip">Tip: click any orange stop for the complete journey story.</p>
+      <p class="tip"><strong>Play tip:</strong> click an orange endpoint to reveal the full route card.</p>
     </aside>
 
-    <div id="map" aria-label="Interactive transport accessibility map"></div>
+    <div id="map" aria-label="Interactive Dublin IRL transit game map"></div>
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
