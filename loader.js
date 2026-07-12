@@ -6,7 +6,6 @@
     railwayData: 'data/Railway.geojson',
     dartStationsData: 'data/DartStations.geojson',
     transferBufferData: 'data/TransferBuffer.geojson',
-    boardingStopsData: 'data/ExportLinks.geojson',
     reachableStopsData: 'data/ReachableStops.geojson',
     busRoutesData: 'data/ClippedBusRoutes.geojson'
   };
@@ -17,6 +16,13 @@
       if (!response.ok) throw new Error(`Could not load ${path} (${response.status})`);
       window[name] = await response.json();
     }));
+
+    // The frequent boarding-stop export was not uploaded to the repository.
+    // Use an empty layer so the rest of the map still renders.
+    window.boardingStopsData = {
+      type: 'FeatureCollection',
+      features: []
+    };
 
     const script = document.createElement('script');
     script.src = 'script.js';
